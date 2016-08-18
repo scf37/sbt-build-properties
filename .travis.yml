@@ -27,7 +27,8 @@ script:
   - ssh-add ~/github_key
   - git remote remove origin
   - git remote add origin git@github.com:scf37/sbt-build-properties.git
-  - git branch -u origin/master -f master HEAD
+  - git branch -f master HEAD
   - git checkout master
+  - git branch -u origin/master
   - sbt 'release with-defaults'
 
