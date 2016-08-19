@@ -13,7 +13,9 @@ lazy val buildprops = (project in file("."))
     bintrayRepository := "sbt-plugins",
     publishMavenStyle := false,
     bintrayOrganization := None,
-    licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+    licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html")),
+
+    resourceGenerators in Compile <+= buildProperties
 
 )
 
