@@ -1,5 +1,5 @@
 # sbt-build-properties plugin
-![Build status](https://travis-ci.org/scf37/sbt-build-properties.svg?branch=master)
+[![Build status](https://travis-ci.org/scf37/sbt-build-properties.svg?branch=master)](https://travis-ci.org/scf37/sbt-build-properties)
 
 This plugin creates build.properites at target classpath with basic information about the build: artefact name and version, build time, git revision, git origin url, last few commits.
 
@@ -7,12 +7,12 @@ This plugin creates build.properites at target classpath with basic information 
 - Written properties should be readable by external tools/naked eyes
 - Written properties should be configurable
 
-##Usage
+## Usage
 
 Add this to project/plugins.sbt
 ```
 resolvers += Resolver.url("plugins", url("https://dl.bintray.com/scf37/sbt-plugins"))(Resolver.ivyStylePatterns)
-addSbtPlugin("me.scf37.buildprops" % "sbt-build-properties" % "1.0.2")
+addSbtPlugin("me.scf37.buildprops" % "sbt-build-properties" % "1.0.4")
 ```
 
 Then, add this setting to project you want to write `build.properties` to:
