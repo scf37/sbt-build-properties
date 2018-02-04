@@ -1,11 +1,12 @@
 package me.scf37.buildprops
 
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Properties
 import java.util.TimeZone
-
 import sbt.Keys._
 import sbt._
 
@@ -35,9 +36,9 @@ object BuildPropertiesPlugin extends AutoPlugin {
         "name" -> name.value,
         "version" -> version.value,
         "build_timestamp" -> BuildProperties.now,
-        "build_revision" -> Try(("git rev-parse HEAD" !!).trim).getOrElse("NONE"),
-        "scm_repository" -> Try(("git config --get remote.origin.url" !!).trim).getOrElse("NONE"),
-        "build_last_few_commits" -> Try(Seq("git", "log", "-n", "5", "--pretty=%h %ad %an %s") !!).getOrElse("NONE"))
+        "build_revision" -> Try(BuildProperties.exec("git", "rev-parse" ,"HEAD").trim).getOrElse("NONE"),
+        "scm_repository" -> Try(BuildProperties.exec("git", "config", "--get", "remote.origin.url").trim).getOrElse("NONE"),
+        "build_last_few_commits" -> Try(BuildProperties.exec("git", "log", "-n", "5", "--pretty=%h %ad %an %s")).getOrElse("NONE"))
     }
   )
 }
@@ -65,5 +66,26 @@ object BuildProperties {
     val df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
     df.setTimeZone(tz)
     df.format(new Date())
+  }
+
+  def exec(command: String*): String = {
+    def read(is: InputStream): String = {
+      val s = new ByteArrayOutputStream()
+      val buf = new Array[Byte](256)
+      while (true) {
+        val len = is.read(buf)
+        if (len < 1) {
+          return new String(s.toByteArray) //intentionally using default charset
+        }
+        s.write(buf, 0, len)
+      }
+      ???
+    }
+
+    val p = java.lang.Runtime.getRuntime.exec(command.toArray)
+    p.waitFor() match {
+      case 0 => read(p.getInputStream)
+      case err => throw new RuntimeException(s"Command '$command' exited with error code $err\n" + read(p.getErrorStream))
+    }
   }
 }
