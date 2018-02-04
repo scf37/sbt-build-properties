@@ -31,5 +31,5 @@ script:
   - git branch -f master HEAD
   - git checkout master
   - git branch -u origin/master
-  - sbt '^release with-defaults'
+  - sbt '^release cross with-defaults'
 
