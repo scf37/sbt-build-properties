@@ -12,7 +12,7 @@ This plugin creates build.properites at target classpath with basic information 
 Add this to project/plugins.sbt
 ```
 resolvers += Resolver.url("plugins", url("https://dl.bintray.com/scf37/sbt-plugins"))(Resolver.ivyStylePatterns)
-addSbtPlugin("me.scf37.buildprops" % "sbt-build-properties" % "1.0.6")
+addSbtPlugin("me.scf37.buildprops" % "sbt-build-properties" % "1.0.7")
 ```
 
 Then, add this setting to project you want to write `build.properties` to:
