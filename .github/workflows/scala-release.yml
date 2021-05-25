@@ -1,4 +1,4 @@
-name: Scala CI
+name: Scala Release CI
 on:
   push:
     branches:
@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +18,8 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Run tests
+      env: # Or as an environment variable
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         eval `cat .secret-enc/env | openssl aes-256-cbc -a -d -md sha256 -k "$SECRET_KEY"`
         sbt ci-release
