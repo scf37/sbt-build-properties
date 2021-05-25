@@ -8,14 +8,14 @@ lazy val buildprops = (project in file("."))
 
     licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html")),
 
-    resourceGenerators in Compile += buildProperties,
+    Compile / resourceGenerators += buildProperties,
     publishSettings
 )
 
 lazy val publishSettings = Seq(
       organization := "me.scf37",
       description := "Build properties plugin for sbt",
-      sources in (Compile, doc) := Seq.empty,
+      Compile / doc / sources := Seq.empty,
       scmInfo := Some(
             ScmInfo(
                   url("https://github.com/scf37/sbt-build-properties"),
